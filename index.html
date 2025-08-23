@@ -875,6 +875,7 @@
 
 
 <!-- === CLEAN BOT WITH IMPROVED FACE === -->
+<!--
 <style>
   .bot-container {
     position: fixed;
@@ -1138,6 +1139,286 @@
   // Glow when hovering
   bot.addEventListener("mouseenter", () => bot.classList.add("glow"));
   bot.addEventListener("mouseleave", () => bot.classList.remove("glow"));
+</script>
+-->
+
+
+
+<!-- === RESPONSIVE CUTE BOT WITH SAFE MOUTH & HOVER MESSAGE === -->
+<style>
+  /* Hide bot on small screens */
+  @media (max-width: 767px) {
+    .bot-container { display: none !important; }
+  }
+
+  .bot-container {
+    position: fixed;
+    right: 20px;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 999999;
+    pointer-events: none;
+    perspective: 800px;
+  }
+
+  .rope {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3px;
+    background: linear-gradient(to bottom, #bbb, #666);
+    transform: translateX(-50%);
+    transform-origin: top;
+  }
+
+  .bot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: bounce 1.5s ease-in-out infinite;
+    transition: transform 0.1s;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  /* HEAD */
+  .bot-head {
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(145deg, #c8f0ff, #f0fcff);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 
+      0 0 20px rgba(0, 200, 255, 0.4),
+      inset -5px -5px 10px rgba(255,255,255,0.3),
+      inset 5px 5px 10px rgba(0,0,0,0.4);
+    transform-origin: center;
+    transform-style: preserve-3d;
+  }
+
+  .head-inner {
+    display: flex;
+    transform: translateZ(15px);
+  }
+
+  .eye {
+    width: 16px;
+    height: 16px;
+    background: #111;
+    border-radius: 50%;
+    margin: 0 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pupil {
+    width: 9px;
+    height: 9px;
+    background: #444;
+    border-radius: 50%;
+    position: absolute;
+    top: 3.5px;
+    left: 3.5px;
+    transition: transform 0.05s linear, width 0.1s, height 0.1s;
+  }
+
+  /* Small cute mouth (original position) */
+  .mouth {
+    position: absolute;
+    bottom: 12px; /* original position */
+    width: 16px;
+    height: 4px;
+    border-radius: 2px;
+    background: #444;
+    transition: all 0.2s ease;
+  }
+
+  /* BODY */
+  .bot-body {
+    width: 50px;
+    height: 55px;
+    margin-top: 6px;
+    background: linear-gradient(145deg, #ddd, #fafafa);
+    border-radius: 12px;
+    box-shadow: 
+      inset -3px -3px 6px rgba(255,255,255,0.3),
+      inset 3px 3px 6px rgba(0,0,0,0.4),
+      0 0 15px rgba(0, 200, 255, 0.2);
+    position: relative;
+  }
+
+  /* HANDS & LEGS */
+  .hand {
+    width: 10px;
+    height: 25px;
+    background: linear-gradient(145deg, #ddd, #fafafa);
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    box-shadow: inset -1px -1px 2px rgba(255,255,255,0.3),
+                inset 1px 1px 2px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease-in-out;
+  }
+  .hand.left { left: -12px; }
+  .hand.right { right: -12px; }
+
+  .leg {
+    width: 12px;
+    height: 25px;
+    background: linear-gradient(145deg, #ddd, #fafafa);
+    border-radius: 6px;
+    position: absolute;
+    bottom: -25px;
+    box-shadow: inset -1px -1px 2px rgba(255,255,255,0.3),
+                inset 1px 1px 2px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease-in-out;
+  }
+  .leg.left { left: 5px; }
+  .leg.right { right: 5px; }
+
+  /* BOUNCE */
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-15px); }
+  }
+
+  /* TOOLTIP MESSAGE */
+  .bot-message {
+    position: absolute;
+    bottom: 120%;
+    right: 50%;
+    transform: translateX(50%);
+    background: rgba(226, 228, 236, 0.75);
+    color: #000000;
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .bot:hover .bot-message { opacity: 1; }
+
+  /* GLOW */
+  .glow {
+    box-shadow: 0 0 25px rgba(0,200,255,0.4), 0 0 50px rgba(0,200,255,0.2);
+  }
+</style>
+
+<div class="bot-container">
+  <div class="rope" id="rope"></div>
+  <div class="bot" id="bot">
+    <div class="bot-head" id="botHead">
+      <div class="head-inner">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+      <div class="bot-message">Hey,have a good day!</div>
+    </div>
+    <div class="bot-body">
+      <div class="hand left"></div>
+      <div class="hand right"></div>
+      <div class="leg left"></div>
+      <div class="leg right"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const bot = document.getElementById("bot");
+  const rope = document.getElementById("rope");
+  const pupils = document.querySelectorAll(".pupil");
+  const botHead = document.getElementById("botHead");
+  const mouth = botHead.querySelector(".mouth");
+  const hands = document.querySelectorAll(".hand");
+  const legs = document.querySelectorAll(".leg");
+
+  let scrollTimer;
+  function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
+
+  // Scroll -> move bot & rope
+  window.addEventListener("scroll", () => {
+    let scrollTop = window.scrollY;
+    let maxScroll = document.body.scrollHeight - window.innerHeight;
+    let percentage = scrollTop / maxScroll;
+    let maxMove = window.innerHeight - 140;
+    let botTop = percentage * maxMove + 40;
+
+    bot.style.top = botTop + "px";
+    rope.style.height = botTop + "px";
+
+    bot.style.animationPlayState = "paused";
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => bot.style.animationPlayState = "running", 150);
+  });
+
+  // Cursor -> pupils, head tilt, body lean, safe mouth
+  document.addEventListener("mousemove", (e) => {
+    const botRect = bot.getBoundingClientRect();
+    const botCenterX = botRect.left + botRect.width / 2;
+    const botCenterY = botRect.top + botRect.height / 2;
+
+    let xPercent = (e.clientX - botCenterX) / (window.innerWidth / 2);
+    let yPercent = (e.clientY - botCenterY) / (window.innerHeight / 2);
+
+    // Pupils move and dilate
+    pupils.forEach(p => {
+      p.style.transform = `translate(${xPercent * 12}px, ${yPercent * 12}px) scale(${1 + Math.abs(xPercent)/3})`;
+    });
+
+    let rotateX = clamp(yPercent * -40, -25, 25); 
+    let rotateY = clamp(xPercent * 40, -25, 25);
+    botHead.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    bot.style.transform = `translateX(-50%) translateY(0) rotateY(${rotateY*0.2}deg)`;
+
+    // Mouth: only adjust if overlapping eyes
+    const mouthBottom = 12 + yPercent*2; // small shift
+    mouth.style.bottom = `${Math.max(mouthBottom, 6)}px`;
+  });
+
+  // Blink eyes
+  setInterval(() => {
+    document.querySelectorAll(".eye").forEach(eye => {
+      eye.style.height = "2px";
+      setTimeout(() => eye.style.height = "16px", 150);
+    });
+  }, 4000);
+
+  // Hands wave
+  setInterval(() => {
+    hands.forEach((hand, i) => {
+      hand.style.transform = `rotate(${i%2===0?15:-15}deg)`;
+      setTimeout(() => hand.style.transform = "rotate(0deg)", 600);
+    });
+  }, 3000);
+
+  // Legs tap
+  setInterval(() => {
+    legs.forEach((leg, i) => {
+      leg.style.transform = `rotate(${i%2===0?-10:10}deg)`;
+      setTimeout(() => leg.style.transform = "rotate(0deg)", 300);
+    });
+  }, 1000);
+
+  // Click -> jump
+  bot.addEventListener("click", () => {
+    bot.style.transition = "transform 0.2s";
+    bot.style.transform += " translateY(-30px)";
+    setTimeout(() => bot.style.transform = bot.style.transform.replace(" translateY(-30px)",""), 200);
+  });
+
+  
 </script>
 
 

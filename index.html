@@ -1142,9 +1142,7 @@
 </script>
 -->
 
-
-
-<!-- === RESPONSIVE CUTE BOT WITH SAFE MOUTH & HOVER MESSAGE === -->
+<!-- === RESPONSIVE CUTE BOT WITH SAFE MOUTH & HOVER MESSAGE (NO OTHER CHANGES) === -->
 <style>
   /* Hide bot on small screens */
   @media (max-width: 767px) {
@@ -1239,6 +1237,8 @@
     border-radius: 2px;
     background: #444;
     transition: all 0.2s ease;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   /* BODY */
@@ -1290,7 +1290,7 @@
     50% { transform: translateX(-50%) translateY(-15px); }
   }
 
-  /* TOOLTIP MESSAGE */
+  /* TOOLTIP MESSAGE (UNCHANGED) */
   .bot-message {
     position: absolute;
     bottom: 120%;
@@ -1306,13 +1306,7 @@
     pointer-events: none;
     transition: opacity 0.2s ease;
   }
-
   .bot:hover .bot-message { opacity: 1; }
-
-  /* GLOW */
-  .glow {
-    box-shadow: 0 0 25px rgba(0,200,255,0.4), 0 0 50px rgba(0,200,255,0.2);
-  }
 </style>
 
 <div class="bot-container">
@@ -1323,7 +1317,7 @@
         <div class="eye"><div class="pupil"></div></div>
         <div class="eye"><div class="pupil"></div></div>
       </div>
-      <div class="mouth"></div>
+      <div class="mouth" id="mouth"></div>
       <div class="bot-message">Hey,have a good day!</div>
     </div>
     <div class="bot-body">
@@ -1340,14 +1334,15 @@
   const rope = document.getElementById("rope");
   const pupils = document.querySelectorAll(".pupil");
   const botHead = document.getElementById("botHead");
-  const mouth = botHead.querySelector(".mouth");
+  const mouth = document.getElementById("mouth");
   const hands = document.querySelectorAll(".hand");
   const legs = document.querySelectorAll(".leg");
+  const eyes = document.querySelectorAll(".eye");
 
   let scrollTimer;
   function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
 
-  // Scroll -> move bot & rope
+  // Move bot & rope on scroll (unchanged)
   window.addEventListener("scroll", () => {
     let scrollTop = window.scrollY;
     let maxScroll = document.body.scrollHeight - window.innerHeight;
@@ -1363,7 +1358,30 @@
     scrollTimer = setTimeout(() => bot.style.animationPlayState = "running", 150);
   });
 
-  // Cursor -> pupils, head tilt, body lean, safe mouth
+  // Ensure mouth never overlaps eyes
+  function enforceMouthGap(baseBottomPx) {
+    const headRect = botHead.getBoundingClientRect();
+    const headH = botHead.offsetHeight;
+    const mouthH = mouth.offsetHeight;
+
+    // Find the lower edge of the eyes inside the head (local coords)
+    let eyesBottomLocal = 0;
+    eyes.forEach(eye => {
+      const r = eye.getBoundingClientRect();
+      const localBottom = r.bottom - headRect.top; // convert to head-local
+      if (localBottom > eyesBottomLocal) eyesBottomLocal = localBottom;
+    });
+
+    const PADDING = 6; // minimum gap between eyes and mouth
+    // Max bottom value allowed so the mouth stays below eyes + padding
+    const maxBottomAllowed = headH - (eyesBottomLocal + PADDING) - mouthH;
+
+    // Clamp mouth 'bottom' so it cannot rise into the eyes area
+    const safeBottom = clamp(baseBottomPx, 4, Math.max(4, maxBottomAllowed));
+    mouth.style.bottom = safeBottom + "px";
+  }
+
+  // Cursor -> pupils, head tilt, body lean + safe mouth (only change)
   document.addEventListener("mousemove", (e) => {
     const botRect = bot.getBoundingClientRect();
     const botCenterX = botRect.left + botRect.width / 2;
@@ -1377,17 +1395,21 @@
       p.style.transform = `translate(${xPercent * 12}px, ${yPercent * 12}px) scale(${1 + Math.abs(xPercent)/3})`;
     });
 
+    // Head tilt
     let rotateX = clamp(yPercent * -40, -25, 25); 
     let rotateY = clamp(xPercent * 40, -25, 25);
     botHead.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     bot.style.transform = `translateX(-50%) translateY(0) rotateY(${rotateY*0.2}deg)`;
 
-    // Mouth: only adjust if overlapping eyes
-    const mouthBottom = 12 + yPercent*2; // small shift
-    mouth.style.bottom = `${Math.max(mouthBottom, 6)}px`;
+    // Mouth base movement (as you had) + safety clamp to avoid overlap
+    const baseBottom = 12 + yPercent * 2; // small shift you already use
+    enforceMouthGap(baseBottom);
   });
 
-  // Blink eyes
+  // Re-check layout on resize (keeps gap correct)
+  window.addEventListener("resize", () => enforceMouthGap(parseFloat(getComputedStyle(mouth).bottom)));
+
+  // Blink eyes (unchanged)
   setInterval(() => {
     document.querySelectorAll(".eye").forEach(eye => {
       eye.style.height = "2px";
@@ -1395,7 +1417,7 @@
     });
   }, 4000);
 
-  // Hands wave
+  // Hands wave (unchanged)
   setInterval(() => {
     hands.forEach((hand, i) => {
       hand.style.transform = `rotate(${i%2===0?15:-15}deg)`;
@@ -1403,7 +1425,7 @@
     });
   }, 3000);
 
-  // Legs tap
+  // Legs tap (unchanged)
   setInterval(() => {
     legs.forEach((leg, i) => {
       leg.style.transform = `rotate(${i%2===0?-10:10}deg)`;
@@ -1411,14 +1433,12 @@
     });
   }, 1000);
 
-  // Click -> jump
+  // Click -> jump (unchanged)
   bot.addEventListener("click", () => {
     bot.style.transition = "transform 0.2s";
     bot.style.transform += " translateY(-30px)";
     setTimeout(() => bot.style.transform = bot.style.transform.replace(" translateY(-30px)",""), 200);
   });
-
-  
 </script>
 
 

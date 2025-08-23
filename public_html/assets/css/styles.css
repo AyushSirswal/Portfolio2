@@ -1,24 +1,12 @@
 @charset "UTF-8";
-/*!
-=========================================================
-* JohnDoe Landing page
-=========================================================
 
-* Copyright: 2019 DevCRUD (https://devcrud.com)
-* Licensed: (https://devcrud.com/licenses)
-* Coded by www.devcrud.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&display=swap");
+/* @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&display=swap"); */
 :root {
   --blue: #79A9F5;
   --indigo: #C45F90;
   --purple: #A16AE8;
   --pink: #FC8BC0;
-  --red: #F85C70;
+  --red: #;
   --orange: #FF8882;
   --yellow: #FAD02C;
   --green: #A3C14A;
@@ -69,7 +57,8 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #f3fbef;
+  background-color: #f3fbef; 
+     /* background-color: #F0F8FF; */
 }
 
 [tabindex="-1"]:focus {
@@ -199,6 +188,58 @@ pre {
   margin-bottom: 1rem;
   overflow: auto;
 }
+
+
+
+  .certificate-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #c1c1c1 !important;
+    background: #fff;
+  }
+
+  .certificate-card:hover {
+    transform: scale(1.0);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .info-icon {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    padding: 6px 9px;
+    font-size: 16px;
+    color: #121111;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .info-icon:hover {
+    background: #fff;
+    transform: scale(1,1);
+    box-shadow: 0 0 6px #8e7d7f;
+  }
+
+  .card-img-top {
+    border-bottom: 1px solid #ddd;
+    transition: transform 0.3s ease;
+  }
+
+  .certificate-card:hover .card-img-top {
+    transform: scale(1.02);
+  }
+
+  .card-body {
+    background: #f9f9f9;
+    padding: 1rem 0.75rem;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #333;
+  }
 
 figure {
   margin: 0 0 1rem;
@@ -11088,7 +11129,7 @@ p {
   color: #6c757d;
 }
 
-.price-card {
+/* .price-card {
   padding: 30px;
   border: 1px solid #dee2e6;
 }
@@ -11266,7 +11307,7 @@ p {
 .portfolio .portfolio-container .portfolio-item:hover .content-holder {
   opacity: 1;
   visibility: visible;
-}
+} */
 
 /* blog wrapper */
 .blog-card {
@@ -11619,7 +11660,7 @@ pre .code {
 .about-section .about-card:last-child {
   border-right: none;
 }
-
+/* 
 .contact {
   position: relative;
   min-height: 700px;
@@ -11681,4 +11722,117 @@ pre .code {
   background: #F85C70;
   display: block;
   margin-top: 10px;
+} */
+.contact {
+  position: relative;
+  min-height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background-color: #f3fbef;
+  /* background: linear-gradient(135deg, #f5f7fa, #c3cfe2);*/
+  overflow: hidden; 
+}
+/* 
+.contact .map {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  filter: grayscale(80%) brightness(0.8);
+  z-index: 1;
+} */
+
+.contact .contact-form-card,
+.contact .contact-info-card {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  /* border-radius: 20px; */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  min-height: 500px;
+  transition: transform 0.3s ease;
+}
+
+.contact .contact-form-card:hover,
+.contact .contact-info-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact .contact-info-card {
+  padding-right: 25px;
+}
+
+.contact .contact-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.contact .contact-title::after {
+  content: '';
+  width: 40px;
+  height: 3px;
+  background: #F85C70;
+  display: block;
+  margin-top: 12px;
+  border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .contact {
+    padding-top: 120px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact .contact-form-card,
+  .contact .contact-info-card {
+    min-height: auto !important;
+    width: 100%;
+  }
+
+  .contact .contact-form-card {
+    border-bottom: 1px solid #dee2e6;
+  }
+}
+
+
+
+
+
+
+
+
+
+.col-lg-4.about-card{
+  padding: 100px 40px 10px 40px !important;
+}
+.section.bg-dark.text-center {
+  padding: 50px 0px !important;
+}
+#projects.section {
+  /* padding: 50px 0px !important; */
+  padding: 100px 40px 10px 40px !important;
+}
+#certifications.section {
+   padding: 100px 40px 10px 40px !important;         /* top right bottom left */
+}
+#contact.section {
+  /* padding: 60px 0px !important; */
+  padding: 100px 40px 10px 40px !important;
+} 
+#resume.section {
+  /* padding: 50px 0px !important; */
+  padding: 100px 40px 10px 40px !important;
+}
+.btn-outline-danger {
+    color: black !important;
+    border-color: #F85C70;
 }

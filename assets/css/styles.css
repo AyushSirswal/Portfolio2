@@ -10865,7 +10865,7 @@ a.text-danger:hover, a.text-danger:focus {
   color: #f51330 !important;
 }
 
-.text-light {
+.text-light,.ti-google {
   color: #f8f9fa !important;
 }
 
@@ -11762,9 +11762,9 @@ pre .code {
   transform: translateY(-5px);
 }
 
-.contact .contact-info-card {
+/* .contact .contact-info-card {
   padding-right: 25px;
-}
+} */
 
 .contact .contact-title {
   font-size: 1.8rem;
@@ -11809,7 +11809,10 @@ pre .code {
 
 
 
-
+.header .header-content {
+   
+    top: 62%;
+}
 
 .col-lg-4.about-card{
   padding: 100px 40px 10px 40px !important;
@@ -11835,4 +11838,22 @@ pre .code {
 .btn-outline-danger {
     color: black !important;
     border-color: #F85C70;
+}
+@media(max-width:767px){
+    img {
+    width: 100%;
+}
+body{
+    padding:30px 0px;
+}
+h6, .h6 {
+    font-size: 12px;
+}
+.header .header-content {
+    top: 85%;
+}
+}
+
+.about-card-social a .ti-google{
+  color: #F85C70!important;
 }
